@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto_app/home_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,7 +26,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.teal),
+      theme: ThemeData(
+        primarySwatch: defaultTargetPlatform == TargetPlatform.iOS
+            ? Colors.blueGrey
+            : Colors.teal,
+      ),
       home: HomePage(
         currencies: widget.currencies,
       ),
