@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Crypto Currency'),
+        elevation: defaultTargetPlatform == TargetPlatform.iOS ? 0 : 16,
       ),
       body: cryptoWidget(),
     );
