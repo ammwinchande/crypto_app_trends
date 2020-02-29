@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 Future<List> getCurrencies() async {
-  String url = 'https://api.coinmarketcap.com/v1/ticker/?limit=50';
+  String url = 'https://api.coinmarketcap.com/v1/ticker/';
   http.Response response = await http.get(url);
   return json.decode(response.body);
 }
