@@ -3,7 +3,7 @@ import 'package:crypto_app/src/dependency_injection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
+void main() {
   Injector.configure(Flavor.API);
   runApp(MyApp());
 }
