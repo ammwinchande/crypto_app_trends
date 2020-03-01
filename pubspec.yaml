@@ -1,5 +1,5 @@
 name: crypto_app
-description: A new Flutter project.
+description: Flutter Crypto Currencies trends APP. The App uses an api to fetch trends in Crypto Currencies and display them in a list order
 
 version: 1.0.0+1
 
