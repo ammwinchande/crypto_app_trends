@@ -13,7 +13,6 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
 
   bool _isLoading;
   List<Crypto> _currencies;
-  final List<Color> _colors = [Colors.blue, Colors.red, Colors.green];
 
   _HomePageState() {
     _cryptoListPresenter = new CryptoListPresenter(this);
@@ -32,11 +31,11 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
       appBar: AppBar(
         title: Text('Crypto Currency'),
       ),
-      body: cryptoWidget(),
+      body: _cryptoWidget(),
     );
   }
 
-  Container cryptoWidget() {
+  Container _cryptoWidget() {
     return Container(
       child: Column(
         children: <Widget>[
@@ -45,12 +44,8 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
               : Flexible(
                   child: ListView.builder(
                     itemCount: _currencies.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Crypto currency = _currencies[index];
-                      final Color color = _colors[index % _colors.length];
-
-                      return itemTile(currency: currency, color: color);
-                    },
+                    itemBuilder: (BuildContext context, int index) =>
+                        _renderTiles(index: index),
                   ),
                 ),
         ],
@@ -58,14 +53,33 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
     );
   }
 
-  Padding itemTile({Crypto currency, Color color}) {
+  Widget _renderTiles({int index}) {
+    final Crypto currency = _currencies[index];
+    var children = <Widget>[
+      Padding(
+        padding: EdgeInsets.all(10.0),
+        child: _itemTile(currency: currency),
+      ),
+      Divider(height: 5.0),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
+    );
+  }
+
+  Padding _itemTile({Crypto currency}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: color,
-          child: Text(currency.symbol),
-          radius: 50,
+        leading: FadeInImage(
+          placeholder: AssetImage('assets/2.0x/stars.png'),
+          image: NetworkImage(
+            "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@9867bdb19da14e63ffbe63805298fa60bf255cdd/32@2x/icon/" +
+                currency.symbol.toLowerCase() +
+                "@2x.png",
+          ),
         ),
         title: Padding(
           padding: const EdgeInsets.only(top: 16.0),
@@ -83,7 +97,7 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
   }
 
   subTitleText({String priceUsd, String percentage}) {
-    TextSpan priceText = new TextSpan(
+    TextSpan priceText = TextSpan(
       text: '\$$priceUsd',
       style: TextStyle(color: Colors.black),
     );
@@ -110,9 +124,8 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
   void onLoadComplete(List<Crypto> cryptos) {
     setState(() {
       _currencies = cryptos;
-      print(_currencies);
+      _isLoading = false;
     });
-    _isLoading = false;
   }
 
   @override
