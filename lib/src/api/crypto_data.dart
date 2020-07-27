@@ -10,7 +10,9 @@ class CryptoData implements CryptoRepository {
 
   @override
   Future<List<Crypto>> fetchCurrencies() async {
-    http.Response response = await http.get(url);
+    print('hello');
+    final response = await http.get(url);
+    print(response.statusCode);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List cryptoResponse = json.decode(response.body);
       return cryptoResponse.map((crypto) => Crypto.fromMap(crypto)).toList();
